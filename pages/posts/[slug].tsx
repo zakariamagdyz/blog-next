@@ -7,8 +7,9 @@ import {
   getPostsFiles,
 } from "@/lib/posts-utils";
 import { GetStaticPaths, GetStaticProps } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
-import { FC } from "react";
+import { FC, Fragment } from "react";
 
 export const getStaticPaths: GetStaticPaths = () => {
   const postFileNames = getPostsFiles();
@@ -37,7 +38,15 @@ type Props = {
 };
 const Post: FC<Props> = ({ post }) => {
   const router = useRouter();
-  return <PostContent post={post} />;
+  return (
+    <Fragment>
+      <Head>
+        <title>{post.title}</title>
+        <meta name="description" content={post.excerpt} />
+      </Head>
+      <PostContent post={post} />;
+    </Fragment>
+  );
 };
 
 export default Post;
